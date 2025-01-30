@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ELL101 Course Material</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Course materials and tutorials for ELL101.">
+    <meta name="author" content="Monil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+
+    
+    <style>
+    body {
+        background-image: url('https://imgs.search.brave.com/KtDO2B7GVofNI1pTk7NGPAlMNy2N3tswq_s--aT5xyk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/d2FsbHBhcGVyc2Fm/YXJpLmNvbS80OC82/MC8zcmZKQTUuanBn');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', Arial, sans-serif;
+        color: white;
+    }
+
+    h1, h2 {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    h1 {
+        font-size: 3em;
+        color: #FFD700;
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7), 0 0 20px #FF4500;
+        animation: glow 1.5s infinite alternate;
+        background: linear-gradient(90deg, #FF6347, #FFD700, #32CD32);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+        font-size: 2em;
+    }
+
+    .dropdown {
+        margin: 20px auto;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transition: margin-bottom 0.3s ease;
+        width: 90%; /* Adjust width for smaller screens */
+        max-width: 800px; /* Limit the maximum width */
+    }
+
+    .dropdown-header {
+        padding: 12px 20px;
+        font-size: 1.2em;
+        font-weight: bold;
+        background-color: #62a4e9;
+        color: white;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 10px;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .dropdown-header:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .dropdown-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: rgba(26, 86, 135, 0.8);
+        transition: max-height 0.5s ease;
+    }
+
+    .dropdown-content.open {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .dropdown-content a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+        text-align: center;
+        background-color: #0a5068;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-content a:hover {
+        background-color: #0056b3;
+    }
+
+    .dropdown-content::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .dropdown-content::-webkit-scrollbar-thumb {
+        background-color: #62a4e9;
+        border-radius: 10px;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+        .dropdown-header {
+            font-size: 1em; /* Reduce font size for smaller screens */
+        }
+
+        .dropdown-content a {
+            font-size: 0.9em; /* Reduce link size for smaller screens */
+            padding: 8px; /* Reduce padding for smaller screens */
+        }
+
+        h1 {
+            font-size: 2em; /* Adjust heading size for smaller screens */
+        }
+
+        h2 {
+            font-size: 1.5em; /* Adjust subheading size for smaller screens */
+        }
+    }
+</style>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const outerDropdowns = document.querySelectorAll('.dropdown.outer');
+
+            outerDropdowns.forEach(outer => {
+                const outerHeader = outer.querySelector('.dropdown-header');
+                const outerContent = outer.querySelector('.dropdown-content');
+
+                outerHeader.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const isOpen = outerContent.classList.contains('open');
+                    closeAllDropdowns();
+                    if (!isOpen) {
+                        outerContent.classList.add('open');
+                    }
+                });
+
+                const innerDropdowns = outer.querySelectorAll('.dropdown.inner');
+                innerDropdowns.forEach(inner => {
+                    const innerHeader = inner.querySelector('.dropdown-header');
+                    const innerContent = inner.querySelector('.dropdown-content');
+
+                    innerHeader.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const isOpen = innerContent.classList.contains('open');
+                        closeInnerDropdowns(outer);
+                        if (!isOpen) {
+                            innerContent.classList.add('open');
+                        }
+                    });
+
+                    const innerMostDropdowns = inner.querySelectorAll('.dropdown.inner-most');
+                    innerMostDropdowns.forEach(innerMost => {
+                        const innerMostHeader = innerMost.querySelector('.dropdown-header');
+                        const innerMostContent = innerMost.querySelector('.dropdown-content');
+
+                        innerMostHeader.addEventListener('click', (event) => {
+                            event.stopPropagation();
+                            const isOpen = innerMostContent.classList.contains('open');
+                            closeInnerMostDropdowns(inner);
+                            if (!isOpen) {
+                                innerMostContent.classList.add('open');
+                            }
+                        });
+                    });
+                });
+            });
+
+            function closeAllDropdowns() {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.classList.remove('open');
+                });
+            }
+
+            function closeInnerDropdowns(outer) {
+                outer.querySelectorAll('.dropdown.inner .dropdown-content').forEach(content => {
+                    content.classList.remove('open');
+                });
+            }
+
+            function closeInnerMostDropdowns(inner) {
+                inner.querySelectorAll('.dropdown.inner-most .dropdown-content').forEach(content => {
+                    content.classList.remove('open');
+                });
+            }
+
+            document.addEventListener('click', () => {
+                closeAllDropdowns();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1><a href="https://dalla111.github.io/homepage/" ><img src="https://jwalamukhi.iitd.ac.in/images/Jwala_logo_extra_small_2.png" alt="Logo" ></a>ELL101 Course Material</h1>
+    <div class="container">
+        <div class="section">
+            <div class="dropdown outer">
+                <div class="dropdown-header">SEM-1 | LECTURES</div>
+                <div class="dropdown-content">
+                    <a href="https://drive.google.com/file/d/10s3F6eMhU_2er-X8mgrHoHlN3Hr61MoD/view?usp=drive_link">L01 - Introduction</a>
+                <a href="https://drive.google.com/file/d/1Id02xwA_aaVv9PelBZm3NSgvXVeQD69j/view?usp=drive_link">L02 - Circuit Elements</a>
+                <a href="https://drive.google.com/file/d/10obEri_qeZ4a0pO9vIXWBtnr9DevMZq4/view?usp=drive_link">L03 - Linearity</a>
+                <a href="https://drive.google.com/file/d/1Io1CiR-wwMz2iPd9bYJ-YpqF7YXvv-eA/view?usp=drive_link">L04 - KCL-KVL</a>
+                <a href="https://drive.google.com/file/d/1Svw2uzcxkX3doFEfTbhz69tXn0QukSBO/view?usp=drive_link">L05-06 - Network Theorems</a>
+                <a href="https://drive.google.com/file/d/1qTS-Da3QvGtyJX85GFYEwDSleMeqZOeh/view?usp=drive_link">L07-08 - Natural Response 1</a>
+                <a href="https://drive.google.com/file/d/12RhjcIaDtT9YzG5ZWIxg8MCgU_K31Owb/view?usp=drive_link">L09 - Natural Response 2</a>
+                <a href="https://drive.google.com/file/d/1AVk6dquhU7RuWoFTwtUdA7ijWnRMf-uV/view?usp=drive_link">L10 - Impedance Function</a>
+                <a href="https://drive.google.com/file/d/1DbRlfn-MnsumfoHZRME5xlSbXXFvY_st/view?usp=drive_link">L11 - Forced Response 1</a>
+                <a href="https://drive.google.com/file/d/15BQwljxDtAjs-AL6yhLALzIpK_W9Tn0i/view?usp=drive_link">L12 - Forced Response 2</a>
+                <a href="https://drive.google.com/file/d/119RLi0yjTVEDikJjJgVmmTRKKAj_grBj/view?usp=drive_link">L13 - Forced Response 3</a>
+                <a href="https://drive.google.com/file/d/1iUm2tVdK1M_PHWZTNsfZ1RGyQDcQWCbH/view?usp=drive_link">L14 - Complete Response</a>
+                <a href="https://drive.google.com/file/d/10mRqCLTaDNZyeGO5nPqGGcyIaRTKOtYr/view?usp=drive_link">L15 - Diodes</a>
+                <a href="https://drive.google.com/file/d/1boe3nVT3BEbZp8CBksZd9PIvdQGsaTF7/view?usp=drive_link">L16 - AC Power 1</a>
+                <a href="https://drive.google.com/file/d/15TNDGpTiXvZhYny0MEL1YO070v_mlqU9/view?usp=drive_link">L17 - AC Power 2</a>
+                <a href="https://drive.google.com/file/d/1Sy0K7d8nfbIBqq4NQ6xz2cLX8khvVc3l/view?usp=drive_link">L18 - AC Resonance</a>
+                <a href="https://drive.google.com/file/d/1XedRbYkR4ImSoNL1FxSLlM9nz1r8DSot/view?usp=drive_link">L19 - Problems</a>
+                <a href="https://drive.google.com/file/d/1ZA8X_-r5rx1nB9oqDEyJ-Ch0bw2phkcU/view?usp=drive_link">L20 - Two Port Networks and Three-Phase Circuits</a>
+                <a href="https://drive.google.com/file/d/1dol_1lMCBzmFoR77n-Q1OKFyUZgp7lDU/view?usp=drive_link">L21 - Three Phase</a>
+                <a href="https://drive.google.com/file/d/1hsdH2jP9aO6LolUqhrZzBwIfdWFULvJ_/view?usp=drive_link">L22 - Three Phase 2</a>
+                <a href="https://drive.google.com/file/d/1kED6i6kcOhIt2VXSdzty4NADXw9JZci1/view?usp=drive_link">L23-25 - Diodes</a>
+                <a href="https://drive.google.com/file/d/1OuTaGtRcTZh_3mbuM-Na2Mr_hbFQDDwq/view?usp=drive_link">L24 - BJT</a>
+                <a href="https://drive.google.com/file/d/1EIs9Q2MWDnXfAupYLf97DzYlouz1m-QQ/view?usp=drive_link">Operational Amplifiers</a>
+                <a href="https://drive.google.com/file/d/1CU-eeuEKFKOs6xRf9WKp44fYtfn6W5Et/view?usp=drive_link">Magnetic Circuits</a>
+
+                    
+                   
+                </div>
+                      
+            </div>
+            
+            <div class="dropdown outer">
+                <div class="dropdown-header">SEM-1 | TUTORIALS</div>
+                <div class="dropdown-content">
+                    <a href="https://drive.google.com/file/d/11c_ChU35f195GS8Y1kaHDsH7JH4pLgoH/view?usp=drive_link">Tutorial 1</a>
+                    <a href="https://drive.google.com/file/d/1bIbAZzQTtm-XWC-tYb3-cTX7Rc1D236-/view?usp=drive_link">Tutorial 2</a>
+                    <a href="https://drive.google.com/file/d/1uq0zovgZ9k1SNPAWOQLWLqtlHCTkizsN/view?usp=drive_link">Tutorial 3</a>
+                    <a href="https://drive.google.com/file/d/1Os3ZBnUp27tSAzU_8hAV4ofFZWGsHzCx/view?usp=drive_link">Tutorial 4</a>
+                    <a href="https://drive.google.com/file/d/1lK7YsSxRl1nC2Ow6PG0A_NPSYTD2-v-D/view?usp=drive_link">Tutorial 5</a>
+                    <a href="https://drive.google.com/file/d/1gDgdo7anu_nqSYSUfcU_iYvvL9KDxSGz/view?usp=drive_link">Tutorial 6</a>
+                    <a href="https://drive.google.com/file/d/1O45I1fdINQWIqO3TY2ZKdX2soV8XSY3I/view?usp=drive_link">Tutorial 7</a>
+                    <a href="https://drive.google.com/file/d/1QLb_58xeO62LdmvdvzZyMMOr9nTGcmvh/view?usp=drive_link">Tutorial 8</a>
+                    <a href="https://drive.google.com/file/d/1ql0D1DssnbMuY8gdBgo714CNwG6doeDF/view?usp=drive_link">Tutorial 9</a>
+                    <a href="https://drive.google.com/file/d/1miIDCSDMgXnwUQmTbRrkSfmLFpq8LPLe/view?usp=drive_link">Tutorial 10</a>
+                    <a href="https://drive.google.com/file/d/1otUqaq2qNuqaDmP3msZoGpHlh6Vz-HGF/view?usp=drive_link">Tutorial 11</a>
+                    <a href="https://drive.google.com/file/d/1Uji5isyjMWH5p9CwNt_PJKIqZArU19If/view?usp=drive_link">Tutorial 12</a>
+                    <a href="https://drive.google.com/drive/folders/1mN8rqKjEMCqeSSDdLN-rqi7Cv12BJoQ_?usp=drive_link">Answers</a>
+
+
+                    
+                </div>
+            </div>
+            <div class="dropdown outer">
+                <div class="dropdown-header">SEM-1 | TUTORIALS QUIZ</div>
+                <div class="dropdown-content">
+                    <div class="dropdown inner">
+                        <div class="dropdown-header">MONDAY</div>
+                        <div class="dropdown-content">
+                            
+                            <a href="https://drive.google.com/file/d/1RWsaztaFMLTBjfnd757iusLj8peJHQiM/view?usp=drive_link">Quiz 1</a>
+                            <a href="https://drive.google.com/file/d/1V6-GCtwAjCo2AJ7nFa7E1Vhv6qpFlRWl/view?usp=drive_link">Quiz 2</a>
+                            <a href="https://drive.google.com/file/d/1V6-GCtwAjCo2AJ7nFa7E1Vhv6qpFlRWl/view?usp=drive_link">Quiz 3</a>
+                            <a href="https://drive.google.com/file/d/1TtGp_QkPmlnqLUnfv3bxa4LaNIwKloFV/view?usp=drive_link">Quiz 4</a>
+                            <a href="https://drive.google.com/file/d/1ysD-w4qXQKEEv0v7h7jYmtn3cOL5gQYu/view?usp=drive_link">Quiz 5</a>
+                            <a href="https://drive.google.com/file/d/1D5-wJxpZlgFjuySN56-idV4f78U-ix6J/view?usp=drive_link">Quiz 6</a>
+                            <a href="https://drive.google.com/file/d/1l6oCewkAdTlksa7Xp3ptV0GpuiT8Gdhu/view?usp=drive_link">Quiz 7</a>
+                            <a href="https://drive.google.com/file/d/1XDYHb4MCYitgJ29Ja19Afdkm1d9txJbj/view?usp=drive_link">Quiz 8</a>
+                            <a href="https://drive.google.com/file/d/1ejv8-gOwt5wXjxoFVpdU1n--LOjbpewq/view?usp=drive_link">Quiz 9</a>
+                            <a href="https://drive.google.com/file/d/1Mi82ujw22G_dMqNuMW5MWy5RiDLZ8_Vb/view?usp=drive_link">Quiz 10</a>
+  
+                        </div>
+                    </div>
+                    <div class="dropdown inner">
+                        <div class="dropdown-header">TUESDAY</div>
+                        <div class="dropdown-content">
+                            
+                            <a href="https://drive.google.com/file/d/1VVK_MXDVrWjbHHe2Y-29UbNOtz3OsJjY/view?usp=drive_link"> TUESDAY</a>  
+                        </div>
+                    </div>
+                    <div class="dropdown inner">
+                        <div class="dropdown-header">WEDNESDAY</div>
+                        <div class="dropdown-content">
+                            <a href="https://drive.google.com/file/d/1E6pr1ZM-Oidn7j4CfFE7C9sRr7PUI-cc/view?usp=drive_link">Quiz 1</a>
+                            <a href="https://drive.google.com/file/d/1E6pr1ZM-Oidn7j4CfFE7C9sRr7PUI-cc/view?usp=drive_link">Quiz 2</a>
+                            <a href="https://drive.google.com/file/d/1nfHN7C0sZZeCPvsQ6zP1Fl4qciyXk4-t/view?usp=drive_link">Quiz 3</a>
+                            <a href="https://drive.google.com/file/d/1cAalYvKuzdPoBVshovBwVwRxGdvw4dEM/view?usp=drive_link">Quiz 4</a>
+                            <a href="https://drive.google.com/file/d/1kdKCEPJ_hcl76lEWlJWaVE3i6d3V7ARg/view?usp=drive_link">Quiz 5</a>
+                            <a href="https://drive.google.com/file/d/1rXtq6IzcGNJ69Vbysl8ENlZHE_8sF209/view?usp=drive_link">Quiz 6</a>
+                            <a href="https://drive.google.com/file/d/1IUz6FbSp9wEtQk0DtqVUWp8YerNHhkz7/view?usp=drive_link">Quiz 7</a>
+                            <a href="https://drive.google.com/file/d/1WXbrQDNEfV_I-bdjfSZaA9Ww6nm-kDbl/view?usp=drive_link">Quiz 8</a>
+                            <a href="https://drive.google.com/file/d/1jhx_H_m0OvoitQm6GfnS-W8DIH0jG4L3/view?usp=drive_link">Quiz 9</a>
+
+                        </div>
+                    </div>
+                    <div class="dropdown inner">
+                        <div class="dropdown-header">THURSDAY</div>
+                        <div class="dropdown-content">
+                            
+                            <a href="https://drive.google.com/file/d/1WtytLrZ2Ryb9G4KBjpgwE9Dkak77yc_2/view?usp=drive_link">Quiz 1</a>
+                            <a href="https://drive.google.com/file/d/1BFBPe8WWCAegjpiv9cHHMgSUjNxuuz97/view?usp=drive_link">Quiz 2</a>
+                            <a href="https://drive.google.com/file/d/1SzJv01hZIUwPJmxdfbGCQBWanFNGqLAh/view?usp=drive_link">Quiz 3</a>
+                            <a href="https://drive.google.com/file/d/1L61Y0hPfrPwU5ei_gJ5YhzsXYgec2B7R/view?usp=drive_link">Quiz 4</a>
+                            <a href="https://drive.google.com/file/d/11zR-easxQ3NC8mP6qld9Ly1diGRdqpJA/view?usp=drive_link">Quiz 5</a>
+                            <a href="https://drive.google.com/file/d/1DoUFbmcX7JcpbOep1MCZfpErg-KoZ_xk/view?usp=drive_link">Quiz 6</a>
+                            <a href="https://drive.google.com/file/d/16eAgFZuspVca5xTe4x6JuSOo605JzFYP/view?usp=drive_link">Quiz 7</a>
+                            <a href="https://drive.google.com/file/d/1ulR2y1hUhElVSQKFfX7zAg3qU3IYbs1k/view?usp=drive_link">Quiz 8</a>
+                            <a href="https://drive.google.com/file/d/1dQubYqMlvhntw6tQ5l8csvgRR2HrBT8z/view?usp=drive_link">Quiz 9</a>
+                            <a href="https://drive.google.com/file/d/1kfnLjPqXt0ettz1s5QaCEDEmk0REE6Go/view?usp=drive_link">Quiz 10</a>
+  
+                        </div>
+                    </div>
+                    <div class="dropdown inner">
+                        <div class="dropdown-header">FRIDAY</div>
+                        <div class="dropdown-content">
+                            
+                            <a href="https://drive.google.com/file/d/1kAApQjAJ7TNzaPEWA9KAh3jYL1LSNbv3/view?usp=drive_link"> FRIDAY</a>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown outer">
+                <div class="dropdown-header">SEM-2 | LECTURES</div>
+                <div class="dropdown-content">
+                    <a href="https://drive.google.com/file/d/1XgTWiAoTOEMGsIl-pjka60511Nbn1OQ3/view?usp=drive_link">ELL101-KCL, KVL, and Network Theorems 1</a>
+                    <a href="https://drive.google.com/file/d/1H6U8TcHLri3J3qALW8RH5frBhnmBdDVX/view?usp=drive_link">ELL101-KCL, KVL, and Network Theorems 2</a>
+                    <a href="https://drive.google.com/file/d/1zOYNSNV3AJXrSWQhAKsVm-WxRHTv8a9e/view?usp=drive_link">ELL101-Forced_Response_and_Complete_Response-1.pdf</a>
+                    <a href="https://drive.google.com/file/d/1hyzc_O3bF-KU5rFqKq0kGSm7WtGXoIqk/view?usp=drive_link">ELL101-Forced_Response_and_Complete_Response-2.pdf</a>
+                    <a href="https://drive.google.com/file/d/1ZoeogB_zkTjo84n3du1X4XEn07I9uoFX/view?usp=drive_link">ELL101-Forced_Response_and_Complete_Response-2A.pdf</a>
+                    <a href="https://drive.google.com/file/d/1XgTWiAoTOEMGsIl-pjka60511Nbn1OQ3/view?usp=drive_link">ELL101-Forced_Response_and_Complete_Response-3.pdf</a>
+                    <a href="https://drive.google.com/file/d/1H6U8TcHLri3J3qALW8RH5frBhnmBdDVX/view?usp=drive_link">ELL101-Forced_Response_and_Complete_Response-4.pdf</a>
+                    <a href="https://drive.google.com/file/d/1tHpKfh7nudCrUocZSY8c5rig_85u816H/view?usp=drive_link">ELL101-Natural Response 1</a>
+                    <a href="https://drive.google.com/file/d/1dnMjK1X3eXorV1GkC0flPaIGQKEGvevI/view?usp=drive_link">ELL101-Natural Response 2</a>
+                    <a href="https://drive.google.com/file/d/1w3PXgUv49wzw2YGca8daL9gDPB1tZImb/view?usp=drive_link">ELL101-Natural Response 3</a>
+                    <a href="https://drive.google.com/file/d/17jwPjTooQekcRTS7cUasxcmRRDAsl7BW/view?usp=drive_link">ELL101-Signal Waveforms</a>
+
+                    
+                    
+                </div>
+            </div>
+            
+            <div class="dropdown outer">
+                <div class="dropdown-header">SEM-2 | TUTORIALS</div>
+                <div class="dropdown-content">
+                    <a href="https://drive.google.com/file/d/1i-RT3HjzlrdsFLpr4YjcVpNDMIkIEADP/view?usp=drive_link">Tutorial-I</a>
+                    <a href="https://drive.google.com/file/d/1h_EA5i8kVtU9NsR79klhKTlfd1D6qxLr/view?usp=drive_link">Tutorial-I SOLUTION</a>
+                    <a href="https://drive.google.com/file/d/1ofW7xPg8_5JRCIWJ6I2maysybrvFCPNb/view?usp=drive_link">Tutorial-II</a>
+                    <a href="https://drive.google.com/file/d/1z6zLLZf7t2CfFJn1n8iEJdcn1es0by0W/view?usp=drive_link">Tutorial-II SOLUTION</a>
+                    <a href="https://drive.google.com/file/d/1bakJ9i3ew2iH29W3jM6G1hmEy3uR2LnS/view?usp=drive_link">Tutorial-II SOLUTION (BONUS)</a>
+
+                    
+                </div>
+            </div>
+
+            
+            
+            
+            
+        </div>
+        <footer>
+            <p>&copy; ALL RIGHTS RESERVED</p>
+            <p><a href="mailto:monilsavaliya416@gmail.com" style="color: white;">Contact for changes</a></p>
+        </footer>
+    </div>
+</body>
+</html>
